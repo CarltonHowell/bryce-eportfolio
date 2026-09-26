@@ -109,11 +109,11 @@
 @media (hover: hover) and (pointer: fine) {
   body,
   body * {
-    cursor: url("/cursor.svg") 3 3, auto;
+    cursor: url("../assets/cursor.svg") 3 3, auto;
   }
   [data-cursor-invert],
   [data-cursor-invert] * {
-    cursor: url("/cursor-light.svg") 3 3, auto;
+    cursor: url("../assets/cursor-light.svg") 3 3, auto;
   }
 }
 

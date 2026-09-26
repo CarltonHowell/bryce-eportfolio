@@ -4,8 +4,8 @@ export const site = {
   // PLACEHOLDER — swap for Bryce's real address before launch.
   email: 'bryce@example.com',
   linkedin: 'https://www.linkedin.com/',
-  // Cloudflare Pages default domain until a custom domain is added.
-  url: 'https://bryce-howell.pages.dev',
+  // Public URL (GitHub Pages) until a custom domain is added.
+  url: 'https://carltonhowell.github.io/bryce-eportfolio/',
   description:
     'Bryce Howell — Queensland high school teacher (Years 7–12) in Physical Education, Outdoor Education, English and Biology, aligned to the Australian Curriculum v9.0 and QCAA syllabuses.',
 };
