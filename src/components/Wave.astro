@@ -1,0 +1,29 @@
+---
+/**
+ * Text that "waves" on hover: each character flashes accent red in sequence.
+ * Screen readers get the plain string; the split characters are aria-hidden.
+ */
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+let i = 0;
+const words = text.split(' ').map((w) => [...w].map((c) => ({ c, i: i++ })));
+---
+
+<span class="sr-only">{text}</span><span aria-hidden="true"
+  >{
+    words.map((word, wi) => (
+      <>
+        <span class="inline-block whitespace-nowrap">
+          {word.map(({ c, i }) => (
+            <span class="inline-block" data-hw-char style={`--hwi:${i}`}>
+              {c}
+            </span>
+          ))}
+        </span>
+        {wi < words.length - 1 && ' '}
+      </>
+    ))
+  }</span
+>

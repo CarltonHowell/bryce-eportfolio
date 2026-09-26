@@ -1,0 +1,10 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className = 'h-4 w-4 shrink-0 transition-transform duration-300 ease-out-soft group-hover/btn:-rotate-45' } = Astro.props;
+---
+
+<svg class={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+  <path d="M2 8h11.5M9 3.5 13.5 8 9 12.5" stroke-linecap="square"></path>
+</svg>

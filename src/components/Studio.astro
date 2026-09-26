@@ -1,0 +1,113 @@
+---
+import { Image } from 'astro:assets';
+import Container from './Container.astro';
+import Rule from './Rule.astro';
+import { studioText, marqueeRows } from '../data/site';
+import summit from '../assets/images/summit-cheer.jpg';
+import hikersTrail from '../assets/images/hikers-trail.jpg';
+import classroom from '../assets/images/classroom.jpg';
+import swimmer from '../assets/images/swimmer.jpg';
+
+const words = studioText.split(' ');
+const reel = [hikersTrail, classroom, swimmer];
+// Alternate type treatments so the text marquee reads like a strip of logos.
+const logoStyles = [
+  'font-sans font-bold uppercase tracking-[-0.02em]',
+  'font-space font-medium',
+  'font-archivo font-semibold italic',
+  'font-sans font-medium uppercase tracking-[0.08em] text-[0.8em]',
+];
+---
+
+<div class="relative">
+  <div class="flex flex-col justify-center">
+    <section id="studio" class="relative flex min-h-[100svh] w-full flex-col justify-center bg-canvas py-16 lg:block lg:min-h-0 lg:py-0">
+      <Container>
+        <div class="lg:[height:calc(100vh+var(--travel))]" style="--travel:135vh" data-studio-outer>
+          <div class="lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-center">
+            <div class="[height:calc(100svh+var(--travel))] lg:h-auto" data-studio-inner>
+              <div class="sticky top-0 flex min-h-[100svh] flex-col justify-center lg:static lg:block lg:min-h-0">
+                <p class="mt-6 max-w-[calc(1129*var(--px))] text-lead font-medium text-ink lg:mt-[calc(56*var(--px))]" data-studio-text>
+                  <span
+                    class="mb-6 block w-[38%] sm:float-right sm:mb-0 sm:ml-8 sm:mt-2 sm:w-[26%] sm:max-w-[calc(206*var(--px))] sm:[shape-margin:18px] lg:ml-10 lg:w-[19%]"
+                    aria-hidden="true"
+                  >
+                    <span
+                      class="pointer-events-none relative block aspect-square -rotate-[6deg] overflow-hidden [box-shadow:0_calc(18*var(--px))_calc(40*var(--px))_calc(-12*var(--px))_rgba(10,10,10,0.28)]"
+                    >
+                      <Image src={summit} alt="" widths={[320, 480]} sizes="206px" class="absolute inset-0 h-full w-full max-w-none object-cover grayscale" />
+                    </span>
+                  </span>
+                  <span class="sr-only">{studioText}</span>
+                  <span aria-hidden="true">
+                    {
+                      words.map((word, i) => (
+                        <>
+                          <span class="inline-block" data-word>
+                            {[...word].map((c) => (
+                              <span data-char>{c}</span>
+                            ))}
+                          </span>
+                          {i < words.length - 1 && ' '}
+                        </>
+                      ))
+                    }
+                  </span>
+                </p>
+                <Rule class="mt-12 lg:mt-[calc(64*var(--px))]" />
+                <div class="pt-8 lg:flex lg:gap-x-[calc(45*var(--px))] lg:pt-[calc(15*var(--px))]">
+                  <div class="reveal hidden lg:block lg:w-[calc(305*var(--px))] lg:shrink-0" data-reveal="ssr">
+                    <div class="relative aspect-[640/372] w-full overflow-hidden rounded-[2px] bg-canvas" aria-label="Photo reel" role="img">
+                      {
+                        reel.map((src, i) => (
+                          <Image
+                            src={src}
+                            alt=""
+                            widths={[320, 640]}
+                            sizes="305px"
+                            class="absolute inset-0 h-full w-full object-cover"
+                            data-reel-img
+                            style={`animation:reel-fade 12s ease-in-out ${i * 4 - 12}s infinite;${i === 0 ? '' : 'opacity:0'}`}
+                          />
+                        ))
+                      }
+                    </div>
+                  </div>
+                  <div class="min-w-0 lg:flex-1 lg:pt-[calc(35*var(--px))]">
+                    <p class="text-label text-muted">(CURRICULUM & CREDENTIALS)</p>
+                    <div class="relative mt-6 lg:mt-[calc(18*var(--px))]">
+                      <div class="flex flex-col gap-6 lg:gap-[calc(24*var(--px))]">
+                        {
+                          marqueeRows.map((row, r) => (
+                            <div class="marquee-wrapper h-[calc(32*var(--px))]">
+                              <div
+                                class="marquee-track h-[calc(32*var(--px))] items-center"
+                                style={`animation-duration:${r === 0 ? 38 : 46}s;animation-direction:${r === 0 ? 'normal' : 'reverse'}`}
+                              >
+                                {[false, true].map((dupe) => (
+                                  <div
+                                    class="flex h-[calc(32*var(--px))] shrink-0 items-center gap-[calc(52*var(--px))] pr-[calc(52*var(--px))] text-[calc(21*var(--px))] leading-none text-ink"
+                                    aria-hidden={dupe ? 'true' : 'false'}
+                                  >
+                                    {row.map((item, i) => (
+                                      <span class:list={['relative shrink-0 opacity-55', logoStyles[(i + r) % logoStyles.length]]}>{item}</span>
+                                    ))}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ))
+                        }
+                      </div>
+                      <div class="pointer-events-none absolute bottom-0 right-0 top-0 w-[calc(120*var(--px))] bg-linear-to-r from-transparent to-canvas" aria-hidden="true"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  </div>
+</div>

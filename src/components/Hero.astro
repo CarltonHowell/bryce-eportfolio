@@ -1,0 +1,92 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Container from './Container.astro';
+import Rule from './Rule.astro';
+import Nav from './Nav.astro';
+import Menu from './Menu.astro';
+import { heroChips } from '../data/site';
+import portrait from '../assets/images/portrait.avif';
+import hikersTrail from '../assets/images/hikers-trail.jpg';
+import campfire from '../assets/images/campfire.jpg';
+import track from '../assets/images/track-start.jpg';
+import openBook from '../assets/images/open-book.jpg';
+import climber from '../assets/images/climber.jpg';
+import heart from '../assets/images/heart-model.jpg';
+
+const trailSources = [hikersTrail, campfire, track, openBook, climber, heart];
+const trail = await Promise.all(trailSources.map((src) => getImage({ src, width: 240, height: 300, fit: 'cover', format: 'webp' })));
+const trailMask =
+  'mask-image:linear-gradient(105deg, #000 45%, rgba(0, 0, 0, 0) 62%);-webkit-mask-image:linear-gradient(105deg, #000 45%, rgba(0, 0, 0, 0) 62%);mask-size:280% 100%;-webkit-mask-size:280% 100%;mask-repeat:no-repeat;-webkit-mask-repeat:no-repeat;mask-position:100% 0%;-webkit-mask-position:100% 0%';
+---
+
+<section id="top" class="relative w-full bg-canvas">
+  <div class="relative mx-auto flex w-full max-w-canvas flex-col lg:h-[100dvh] lg:min-h-[calc(680*var(--px))]">
+    <div
+      class="absolute hidden overflow-hidden lg:block"
+      data-hero-3d="portrait"
+      data-trail-area
+      style="left:40.9722%;top:8.2%;width:54.6528%;height:90.4%;--h3d:0ms"
+    >
+      <Image
+        src={portrait}
+        alt="Bryce Howell"
+        widths={[800, 1200, 1600]}
+        sizes="55vw"
+        loading="eager"
+        fetchpriority="high"
+        class="absolute left-0 top-0 h-full w-full max-w-none object-cover object-[50%_18%] grayscale"
+      />
+      <div class="pointer-events-none absolute left-0 top-0 z-10" aria-hidden="true" data-trail>
+        {
+          trail.map((img) => (
+            <div class="absolute left-0 top-0" style="width:calc(80 * var(--px))">
+              <img src={img.src} alt="" width="240" height="300" class="h-auto w-full opacity-0" style={trailMask} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="relative z-40 w-full lg:flex lg:h-[8.2%] lg:items-center" data-nav-intro>
+      <Container>
+        <Nav />
+      </Container>
+    </div>
+    <Menu />
+
+    <Container class="flex flex-1 flex-col lg:justify-center">
+      <div class="relative mt-8 aspect-[787/904] max-h-[68vh] w-full overflow-hidden lg:hidden" data-hero-3d="portrait" style="--h3d:0ms">
+        <Image
+          src={portrait}
+          alt="Bryce Howell"
+          widths={[480, 800, 1200]}
+          sizes="100vw"
+          loading="eager"
+          class="absolute inset-0 h-full w-full object-cover object-[50%_18%] grayscale"
+        />
+      </div>
+      <div class="mt-10 lg:mt-0">
+        <h1 class="-ml-[0.06em] w-full text-display font-medium text-ink" data-hero-name data-hero-3d-lines style="--h3d:140ms">
+          <span class="block">Bryce</span>
+          <span class="block">Howell</span>
+        </h1>
+        <p class="mt-[calc(5*var(--px))] text-body-lg text-ink lg:mt-[calc(9*var(--px))] lg:max-w-[40%]" data-hero-3d-lines style="--h3d:340ms">
+          <span class="block">Bodies, books & the bush in between.</span>
+          <span class="block">I take the learning outside.</span>
+        </p>
+        <div data-hero-3d style="--h3d:520ms">
+          <ul class="mt-6 flex flex-wrap gap-[calc(10*var(--px))] min-[368px]:max-w-[calc(400*var(--px))] lg:mt-[calc(35*var(--px))] lg:max-w-[min(40%,calc(400*var(--px)))]">
+            {
+              heroChips.map((chip) => (
+                <li class="border-[1.2px] border-chip px-4 py-[calc(9*var(--px))] font-archivo text-label font-medium text-ink">{chip}</li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </Container>
+    <Container>
+      <Rule class="mt-12 lg:mt-0" />
+    </Container>
+  </div>
+</section>

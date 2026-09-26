@@ -1,0 +1,9 @@
+---
+interface Props {
+  class?: string;
+  dark?: boolean;
+}
+const { class: className, dark = false } = Astro.props;
+---
+
+<div class:list={['h-[1.5px] w-full', dark ? 'bg-[var(--night-hr)]' : 'bg-rule', className]} aria-hidden="true"></div>

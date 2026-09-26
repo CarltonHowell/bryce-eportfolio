@@ -1,0 +1,62 @@
+---
+import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import { site } from '../data/site';
+import ogSource from '../assets/images/hikers-trail.jpg';
+
+interface Props {
+  title?: string;
+}
+const { title = `${site.name} — Teacher · Queensland` } = Astro.props;
+const og = await getImage({ src: ogSource, width: 1200, height: 630, format: 'jpg' });
+const base = Astro.site ?? site.url;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  jobTitle: 'Secondary Teacher',
+  description: site.description,
+  url: site.url,
+  address: { '@type': 'PostalAddress', addressRegion: 'QLD', addressCountry: 'AU' },
+  knowsAbout: ['Physical Education', 'Outdoor Education', 'English', 'Biology', 'Australian Curriculum', 'QCAA'],
+};
+---
+
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={site.description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, base)} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#efeeeb" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={site.description} />
+    <meta property="og:image" content={new URL(og.src, base)} />
+    <meta property="og:locale" content="en_AU" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline>
+      // Play the intro only for a plain visit with motion allowed; deep links (#work/…) skip straight in.
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches && !/^#work\//.test(location.hash)) {
+        document.documentElement.setAttribute('data-loading', 'true');
+      }
+    </script>
+  </head>
+  <body class="bg-canvas font-sans text-ink antialiased overflow-x-hidden">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:border focus:border-ink focus:bg-canvas focus:px-4 focus:py-3 focus:text-body focus:font-medium focus:text-ink"
+      >Skip to content</a
+    >
+    <div class="pointer-events-none fixed inset-0 z-[90] bg-night" aria-hidden="true" data-route-curtain="idle"></div>
+    <slot />
+    <script>
+      import '../scripts/main';
+    </script>
+  </body>
+</html>

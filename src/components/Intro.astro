@@ -1,0 +1,69 @@
+---
+import { getImage } from 'astro:assets';
+import hikersTrail from '../assets/images/hikers-trail.jpg';
+import classroom from '../assets/images/classroom.jpg';
+import track from '../assets/images/track-start.jpg';
+import heart from '../assets/images/heart-model.jpg';
+import campfire from '../assets/images/campfire.jpg';
+import openBook from '../assets/images/open-book.jpg';
+import swimmer from '../assets/images/swimmer.jpg';
+import seaOfClouds from '../assets/images/sea-of-clouds.jpg';
+import groupHike from '../assets/images/group-hike.jpg';
+
+const sources = [hikersTrail, classroom, track, heart, campfire, openBook, swimmer, seaOfClouds, groupHike];
+const images = await Promise.all(sources.map((src) => getImage({ src, width: 480, height: 600, fit: 'cover', format: 'webp' })));
+
+const first = 'BRYCE'.split('');
+const last = 'HOWELL'.split('');
+// Chip is 1.508em tall; photos are cropped 4:5.
+const chipWidth = 0.8 * 1.508;
+const letter = (ch: string, i: number) => ({ ch, delay: 45 * i, outDelay: 26 * i });
+---
+
+<div
+  aria-hidden="true"
+  data-intro
+  class="fixed inset-0 z-[70] flex items-center justify-center bg-canvas transition-opacity duration-[420ms] opacity-100 data-[out]:opacity-0 data-[out]:delay-[260ms]"
+>
+  <div
+    class="flex items-center gap-[0.06em] font-medium leading-none tracking-[-0.03em] text-ink"
+    style="font-size:clamp(min(3rem, calc((100vw - 48px) / 10)), 7.4vw, 8rem)"
+  >
+    {
+      first.map(letter).map(({ ch, delay, outDelay }) => (
+        <span class="-mx-[0.06em] block overflow-hidden px-[0.06em]">
+          <span class="block will-change-transform" data-intro-letter data-out-delay={outDelay} style={`animation:loader-letter-in 620ms cubic-bezier(0.22,1,0.36,1) ${delay}ms both`}>
+            {ch}
+          </span>
+        </span>
+      ))
+    }
+    <span class="relative block shrink-0 overflow-hidden" data-intro-chip data-open-width={`${chipWidth + 0.24}em`} style="height:1.508em;width:0em;transition:width 560ms cubic-bezier(0.22,1,0.36,1)">
+      <div
+        class="absolute left-1/2 top-0 -translate-x-1/2"
+        style={`width:${chipWidth}em;height:1.508em;animation:loader-chip 360ms cubic-bezier(0.22,1,0.36,1) 1180ms both`}
+      >
+        {
+          images.map((img, i) => (
+            <img
+              src={img.src}
+              alt=""
+              class:list={['absolute inset-0 h-full w-full object-cover transition-opacity duration-150', i === 0 ? 'opacity-100' : 'opacity-0']}
+              data-intro-img
+              loading={i < 2 ? 'eager' : 'lazy'}
+            />
+          ))
+        }
+      </div>
+    </span>
+    {
+      last.map((ch, i) => letter(ch, first.length + i)).map(({ ch, delay, outDelay }) => (
+        <span class="-mx-[0.06em] block overflow-hidden px-[0.06em]">
+          <span class="block will-change-transform" data-intro-letter data-out-delay={outDelay} style={`animation:loader-letter-in 620ms cubic-bezier(0.22,1,0.36,1) ${delay}ms both`}>
+            {ch}
+          </span>
+        </span>
+      ))
+    }
+  </div>
+</div>

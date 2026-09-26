@@ -1,0 +1,25 @@
+import { initIntro } from './intro';
+import { initMenu } from './menu';
+import { prepareReveals } from './reveal';
+import { initStudio } from './studio';
+import { initProjects } from './projects';
+import { initSkills } from './skills';
+import { initTrail } from './trail';
+import { initSignature } from './signature';
+import { initFooter } from './footer';
+import { initCases } from './cases';
+import { initContact } from './contact';
+import { initAnchors } from './anchors';
+
+initIntro();
+initMenu();
+initAnchors();
+initCases();
+prepareReveals();
+initStudio();
+initProjects();
+initSkills();
+initTrail();
+initSignature();
+initFooter();
+initContact();

@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import Container from './Container.astro';
+import Rule from './Rule.astro';
+import Button from './Button.astro';
+import ridge from '../assets/images/ridge-trail.jpg';
+import tent from '../assets/images/tent-view.jpg';
+
+const panels = [
+  {
+    src: ridge,
+    alt: 'Off Track - a narrow trail along a green ridgeline',
+    text: "Let's get one thing straight: I don't switch off when the bell goes. Most weekends start before sunrise with a pack on my back somewhere between the Scenic Rim and the Wet Tropics. It's where I recharge, and where my best Outdoor Ed ideas turn up uninvited.",
+  },
+  {
+    src: tent,
+    alt: 'Off Track - the view from an open tent door',
+    text: "Think of this as the field notes behind the teacher: favourite Queensland walks, camps that went sideways, a surf when the swell's right and a book in the tent at night. It keeps me curious - and curious teachers make curious students. Care to take a peek at the trail log?",
+  },
+];
+---
+
+<section id="off-track" class="relative flex min-h-[100svh] w-full flex-col justify-center bg-canvas py-16 lg:py-32">
+  <Container>
+    <Rule />
+    <div class="pt-7 lg:pt-[calc(38*var(--px))]">
+      <h2 class="text-section font-medium text-ink">Off Track</h2>
+    </div>
+    <div class="mt-10 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:mt-[calc(54*var(--px))] lg:gap-y-[calc(30*var(--px))]">
+      {
+        panels.map((p, i) => (
+          <div class:list={['reveal flex-col', i === 0 ? 'hidden sm:flex' : 'flex']} data-reveal="ssr" style={i ? 'transition-delay:90ms' : undefined}>
+            <Image src={p.src} alt={p.alt} widths={[640, 1000, 1400]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-[686/450] h-auto w-full object-cover" />
+            <p class="mt-5 text-body text-muted lg:mt-[calc(30*var(--px))]">{p.text}</p>
+          </div>
+        ))
+      }
+    </div>
+    <div class="mt-10 flex flex-wrap gap-4 lg:mt-[calc(44*var(--px))]">
+      <Button label="Open The Trail Log" href="#work/trail-log" variant="solid" data-open-work="trail-log" />
+      <Button label="Say G'day" href="#contact" />
+    </div>
+  </Container>
+</section>

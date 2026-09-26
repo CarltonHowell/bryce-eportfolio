@@ -1,0 +1,42 @@
+---
+import Wave from './Wave.astro';
+import { site, footerTagline } from '../data/site';
+
+const link =
+  'inline-flex items-center py-[calc(11*var(--px))] text-body-lg text-white transition-colors duration-200 [--hw-base:#fff] [@media(pointer:coarse)]:min-h-[calc(48*var(--px))] hover:text-accent';
+const year = new Date().getFullYear();
+---
+
+<div class="will-change-[clip-path]" data-footer-clip>
+  <footer class="relative w-full bg-night" data-cursor-invert>
+    <div class="mx-auto w-full max-w-canvas px-6 sm:px-10 lg:px-margin">
+      <div class="h-px w-full bg-white/10" aria-hidden="true"></div>
+    </div>
+    <div class="mx-auto w-full max-w-canvas px-6 pt-16 sm:px-10 lg:px-margin lg:pt-[calc(104*var(--px))]">
+      <svg viewBox="0 0 1000 84" class="block h-auto w-full" role="img" aria-label={site.wordmark}>
+        <text
+          x="0"
+          y="83"
+          textLength="1000"
+          lengthAdjust="spacingAndGlyphs"
+          font-family="Funnel Display Variable, Archivo Variable, sans-serif"
+          font-weight="500"
+          font-size="114"
+          fill="#fff">{site.wordmark}</text
+        >
+      </svg>
+      <div class="mt-12 flex flex-col gap-8 lg:mt-[calc(72*var(--px))] lg:flex-row lg:items-end lg:gap-0">
+        <p class="text-subhead font-medium uppercase text-white lg:w-1/2">{footerTagline}</p>
+        <div class="flex flex-wrap items-end gap-x-6 gap-y-1 lg:w-1/2 lg:justify-end lg:pl-5">
+          <a class={link} data-hw href={`mailto:${site.email}`}><Wave text={site.email.toUpperCase()} /></a>
+          <a class={link} data-hw href={site.linkedin} target="_blank" rel="noreferrer"><Wave text="LINKEDIN" /></a>
+          <a class={link} data-hw href="#top"><Wave text="BACK TO TOP" /></a>
+        </div>
+      </div>
+      <p class="mt-12 max-w-[70ch] text-label text-night-muted lg:mt-[calc(60*var(--px))]">
+        I acknowledge the Traditional Custodians of the lands on which I live, teach and walk, and pay my respects to Elders past and present.
+      </p>
+      <p class="mt-4 pb-8 text-body-lg text-white lg:pb-[calc(24*var(--px))]">© {year} {site.name}. All rights reserved.</p>
+    </div>
+  </footer>
+</div>

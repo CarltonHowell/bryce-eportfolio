@@ -1,0 +1,20 @@
+---
+import Wordmark from './Wordmark.astro';
+---
+
+<nav class="flex items-center justify-between pt-8 lg:h-[calc(26*var(--px))] lg:pt-0" aria-label="Primary">
+  <a href="#top" class="-my-2 -ml-2 inline-flex min-h-[calc(44*var(--px))] items-center px-2 text-body-lg" aria-label="Bryce Howell — home">
+    <Wordmark />
+  </a>
+  <button
+    type="button"
+    class="relative z-40 -my-4 -mr-2 flex w-[calc(56*var(--px))] flex-col items-end justify-center gap-[8px] px-2 py-4"
+    aria-expanded="false"
+    aria-controls="site-menu"
+    aria-label="Open menu"
+    data-menu-toggle
+  >
+    <span class="block h-[2px] w-[calc(40*var(--px))] bg-ink transition-transform duration-300 ease-out-soft" data-bar="1"></span>
+    <span class="block h-[2px] w-[calc(40*var(--px))] bg-ink transition-transform duration-300 ease-out-soft" data-bar="2"></span>
+  </button>
+</nav>

@@ -1,0 +1,187 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Container from './Container.astro';
+import Rule from './Rule.astro';
+import Wordmark from './Wordmark.astro';
+
+const all = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+const listed = all.filter((e) => e.data.listed);
+const chipClass = 'border-[1.2px] border-chip px-4 py-[calc(9*var(--px))] font-archivo text-label font-medium text-ink';
+---
+
+{
+  all.map((entry) => {
+    const d = entry.data;
+    const index = listed.findIndex((e) => e.id === entry.id);
+    const next = index >= 0 ? listed[(index + 1) % listed.length] : listed[0];
+    const label = index >= 0 ? `(CASE STUDY · ${String(index + 1).padStart(2, '0')})` : '(FIELD NOTES)';
+    const titleId = `case-title-${entry.id}`;
+    return (
+      <div
+        class="fixed inset-0 z-[60] overflow-y-auto overscroll-contain bg-canvas"
+        style="--px:1px"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        data-case={entry.id}
+        data-lenis-prevent
+        hidden
+      >
+        <div class="relative z-10 w-full bg-canvas">
+          <Container>
+            <nav class="flex items-center justify-between py-4 lg:py-[calc(22*var(--px))]" aria-label="Case study">
+              <a href="#top" class="-my-2 -ml-2 inline-flex min-h-[calc(44*var(--px))] items-center px-2 text-body-lg" data-close-work aria-label="Back to home">
+                <Wordmark />
+              </a>
+              <button type="button" class="-my-4 -mr-2 flex w-[calc(56*var(--px))] flex-col items-end justify-center px-2 py-4" aria-label="Close case study" data-close-work>
+                <span class="block h-[2px] w-[calc(40*var(--px))] translate-y-[1px] rotate-45 bg-ink" />
+                <span class="block h-[2px] w-[calc(40*var(--px))] -translate-y-[1px] -rotate-45 bg-ink" />
+              </button>
+            </nav>
+          </Container>
+        </div>
+
+        <header class="relative w-full bg-canvas">
+          <Container>
+            <p class="pt-12 text-label text-muted lg:pt-[126px]">{label}</p>
+            <h1 id={titleId} class="mt-4 -ml-[0.062em] w-full font-space text-case-title font-medium uppercase text-ink lg:mt-[24px]">
+              {d.name}
+            </h1>
+            <ul class="mt-6 flex flex-wrap gap-[calc(10*var(--px))] lg:mt-[52px]">
+              {d.tags.map((t) => (
+                <li class={chipClass}>{t}</li>
+              ))}
+            </ul>
+            <div class="mt-10 lg:mt-[56px]">
+              <Image src={d.cover} alt={d.coverAlt} widths={[800, 1400, 2000]} sizes="100vw" class="aspect-[1968/1091] h-auto w-full object-cover" loading="lazy" />
+            </div>
+            <p class="mt-8 max-w-[75ch] text-body-lg text-ink lg:mt-[47px]">{d.summary}</p>
+            <Rule class="mt-10 lg:mt-[56px]" />
+            <dl class="grid grid-cols-2 gap-x-0 gap-y-8 pt-6 sm:grid-cols-4 sm:gap-x-6 lg:gap-0 lg:pt-[22px]">
+              {d.meta.map((m) => (
+                <div>
+                  <dt class="text-label text-muted">{m.label}</dt>
+                  <dd class="mt-1 text-body text-ink lg:mt-[8px]">{m.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </Container>
+        </header>
+
+        <section class="relative w-full bg-canvas pt-16 lg:pt-[88px]">
+          <Container>
+            <Rule />
+            <div class="grid grid-cols-1 gap-y-4 pt-6 lg:grid-cols-5 lg:pt-[22px]">
+              <p class="text-label text-muted lg:col-span-2">{d.intentionsLabel}</p>
+              <ul class="text-body text-muted lg:col-span-3 lg:max-w-[747px]">
+                {d.intentions.map((t) => (
+                  <li class="pt-2 first:pt-0">{t}</li>
+                ))}
+              </ul>
+            </div>
+          </Container>
+        </section>
+
+        <section class="relative w-full bg-canvas pt-16 lg:pt-[96px]">
+          <Container>
+            <h2 class="reveal text-subhead font-medium text-ink" data-reveal="ssr">
+              {index >= 0 ? 'Approach' : 'Favourite Walks'}
+            </h2>
+            <Rule class="mt-6 lg:mt-[28px]" />
+            <ul>
+              {d.approach.map((a, n) => (
+                <li>
+                  <div class="reveal grid grid-cols-1 gap-y-3 py-7 lg:grid-cols-5 lg:gap-0 lg:py-[30px]" data-reveal="ssr">
+                    <div class="flex items-baseline gap-6 lg:col-span-3 lg:gap-0">
+                      <span class="w-[100px] shrink-0 text-label text-muted lg:text-body">{String(n + 1).padStart(2, '0')}</span>
+                      <h3 class="text-subhead-sm font-medium text-ink">{a.title}</h3>
+                    </div>
+                    <p class="text-body text-muted lg:col-span-2 lg:col-start-4 lg:max-w-[495px] lg:pt-[6px]">{a.body}</p>
+                  </div>
+                  <Rule />
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </section>
+
+        <section class="relative w-full bg-canvas pt-24 lg:pt-[152px]">
+          <Container>
+            <Rule />
+            <div class="reveal grid grid-cols-1 gap-y-4 pt-8 lg:grid-cols-5 lg:gap-0 lg:pt-[36px]" data-reveal="ssr">
+              <div class="lg:col-span-2">
+                <p class="mb-3 text-label text-muted lg:mb-[16px]">{d.part.label}</p>
+                <h2 class="text-project font-medium text-ink lg:max-w-[505px]">{d.part.title}</h2>
+              </div>
+              <p class="text-body text-muted lg:col-span-3 lg:col-start-3 lg:max-w-[747px] lg:pt-[44px]">{d.part.body}</p>
+            </div>
+
+            {d.part.framing.length > 0 && (
+              <dl class="reveal mt-10 lg:mt-[48px]" data-reveal="ssr">
+                {d.part.framing.map((f) => (
+                  <div class="grid grid-cols-1 gap-y-2 border-t-[1.5px] border-rule py-6 lg:grid-cols-5 lg:gap-0 lg:py-[26px]">
+                    <dt class="text-label text-muted lg:col-span-2">{f.label}</dt>
+                    <dd class="text-body text-muted lg:col-span-3 lg:max-w-[747px]">{f.body}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+
+            {d.part.stats.length > 0 && (
+              <>
+                <p class="reveal mt-10 text-label text-muted lg:mt-[64px]" data-reveal="ssr">
+                  (AT A GLANCE)
+                </p>
+                <dl class="reveal mt-6 grid grid-cols-1 gap-8 sm:grid-cols-3 lg:mt-[28px] lg:gap-0" data-reveal="ssr">
+                  {d.part.stats.map((s) => (
+                    <div class="flex flex-col">
+                      <dt class="order-2 mt-2 text-label text-muted lg:mt-[11px]">{s.label}</dt>
+                      <dd class="order-1">
+                        <span class="block text-stat font-medium text-ink">{s.value}</span>
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </>
+            )}
+
+            {d.part.gallery.length > 0 && (
+              <div class="reveal mt-12 flex flex-col gap-3 sm:flex-row lg:mt-[72px] lg:gap-6" data-reveal="ssr">
+                {d.part.gallery.map((g) => (
+                  <div class="min-w-0 flex-1">
+                    <Image src={g.src} alt={g.alt} widths={[480, 800, 1200]} sizes="(min-width: 640px) 33vw, 100vw" class="aspect-[4/5] h-auto w-full object-cover" loading="lazy" />
+                  </div>
+                ))}
+              </div>
+            )}
+          </Container>
+        </section>
+
+        <section class="relative w-full bg-canvas pb-16 pt-16 lg:pb-[120px] lg:pt-[104px]">
+          <Container>
+            <Rule />
+            <a href={`#work/${next.id}`} class="group block pt-6 lg:pt-[34px]" aria-label={`Next project: ${next.data.name}`} data-next-work={next.id}>
+              <p class="text-label text-muted">{index >= 0 ? 'NEXT PROJECT' : 'BACK TO THE WORK'}</p>
+              <div class="mt-4 flex items-end justify-between gap-6 lg:mt-[36px]">
+                <p class="-ml-[0.062em] w-full font-space text-case-title font-medium uppercase text-ink transition-colors duration-300 group-hover:text-accent">
+                  {next.data.name}
+                </p>
+                <svg
+                  class="mb-2 h-[36px] w-[36px] shrink-0 -rotate-45 text-ink transition-transform duration-300 ease-out-soft group-hover:-translate-y-1 group-hover:translate-x-1 lg:mb-[18px] lg:h-[56px] lg:w-[56px]"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.2"
+                  aria-hidden="true"
+                >
+                  <path d="M2 8h11.5M9 3.5 13.5 8 9 12.5" stroke-linecap="square" />
+                </svg>
+              </div>
+            </a>
+          </Container>
+        </section>
+      </div>
+    );
+  })
+}

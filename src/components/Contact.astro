@@ -1,0 +1,85 @@
+---
+import { Image } from 'astro:assets';
+import Container from './Container.astro';
+import Button from './Button.astro';
+import { site } from '../data/site';
+import sky from '../assets/images/sky.jpg';
+
+const input =
+  'mt-2 w-full border-b border-white/25 bg-transparent pb-3 text-body-lg text-white outline-none transition-colors duration-300 [@media(pointer:coarse)]:min-h-[calc(48*var(--px))] focus:border-white/70 placeholder:text-white/45';
+const label = 'block text-label text-night-muted';
+const row = 'reveal grid grid-cols-1 gap-x-[calc(35*var(--px))] gap-y-7 pt-7 lg:grid-cols-2 lg:pt-[calc(34*var(--px))]';
+---
+
+<div class="relative bg-canvas">
+  <section id="contact" class="relative flex min-h-[100svh] w-full flex-col justify-center overflow-hidden py-16 lg:py-[7svh]">
+    <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
+      <Image
+        src={sky}
+        alt=""
+        widths={[800, 1400, 2000]}
+        sizes="100vw"
+        class="absolute inset-0 h-full w-full object-cover"
+        data-sky
+        style="animation:sky-drift 40s ease-in-out infinite alternate"
+      />
+    </div>
+    <Container>
+      <div
+        id="start-project"
+        data-cursor-invert
+        class="relative bg-night px-6 py-12 sm:px-10 lg:mx-auto lg:w-3/5 lg:min-w-[calc(680*var(--px))] lg:px-[calc(52*var(--px))] lg:py-[calc(40*var(--px))] [box-shadow:0_calc(18*var(--px))_calc(40*var(--px))_calc(-12*var(--px))_rgba(10,10,10,0.28)]"
+      >
+        <div class="flex items-center"><span class="text-label text-night-muted">(LEAVE YOUR DETAILS)</span></div>
+        <h2 class="reveal pt-8 text-section font-medium uppercase text-canvas lg:pt-[calc(16*var(--px))] lg:text-[calc(68*var(--px))]" data-reveal="ssr">Say G'day</h2>
+        <div class="reveal flex flex-wrap items-baseline gap-x-3 gap-y-1 pt-4 lg:pt-[calc(14*var(--px))]" data-reveal="ssr">
+          <span class="text-body text-night-muted">Or just write:</span>
+          <a
+            href={`mailto:${site.email}`}
+            class="inline-flex items-center border-b border-white/30 pb-[calc(2*var(--px))] text-body-lg text-canvas transition-colors duration-300 [@media(pointer:coarse)]:min-h-[calc(48*var(--px))] hover:border-white"
+            >{site.email}</a
+          >
+        </div>
+        <form novalidate data-contact-form data-email={site.email}>
+          <div class={row} data-reveal="ssr">
+            <div>
+              <label class={label} for="lead-name">NAME</label>
+              <input class={input} id="lead-name" name="name" type="text" autocomplete="name" placeholder="Your full name" required />
+            </div>
+            <div>
+              <label class={label} for="lead-email">EMAIL</label>
+              <input class={input} id="lead-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="name@school.edu.au" required />
+            </div>
+          </div>
+          <div class={row} data-reveal="ssr">
+            <div>
+              <label class={label} for="lead-phone">PHONE</label>
+              <input class={input} id="lead-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+61" />
+            </div>
+            <div>
+              <label class={label} for="lead-reason">REASON</label>
+              <select class:list={[input, 'cursor-pointer [&>option]:text-ink']} id="lead-reason" name="reason">
+                <option value="Teaching role" selected>Teaching role</option>
+                <option value="Collaboration / program">Collaboration / program</option>
+                <option value="Just saying g'day">Just saying g'day</option>
+              </select>
+            </div>
+          </div>
+          <div class="reveal grid grid-cols-1 pt-7 lg:pt-[calc(34*var(--px))]" data-reveal="ssr">
+            <div class="lg:col-span-2">
+              <label class={label} for="lead-message">MESSAGE</label>
+              <input class={input} id="lead-message" name="message" type="text" placeholder="A few words" />
+            </div>
+          </div>
+          <div class="reveal flex flex-col gap-6 pb-20 pt-9 sm:flex-row sm:items-center sm:gap-[calc(36*var(--px))] lg:pb-[calc(46*var(--px))] lg:pt-[calc(36*var(--px))]" data-reveal="ssr">
+            <Button label="Send Details" variant="white" type="submit" />
+            <p class="text-label text-night-muted" aria-live="polite" data-form-status>No spam. A real reply, usually within a school day.</p>
+          </div>
+          <div class="reveal -mt-14 lg:-mt-[calc(34*var(--px))]" data-reveal="ssr">
+            <p class="text-label text-night-muted">Send opens your email app - nothing is stored on this site.</p>
+          </div>
+        </form>
+      </div>
+    </Container>
+  </section>
+</div>

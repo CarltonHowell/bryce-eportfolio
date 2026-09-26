@@ -1,0 +1,342 @@
+@import "@fontsource-variable/funnel-display";
+@import "@fontsource-variable/archivo";
+@import "@fontsource-variable/space-grotesk";
+@import "tailwindcss";
+
+@theme {
+  --color-canvas: #efeeeb;
+  --color-ink: #0a0a0a;
+  --color-night: #0d0d0b;
+  --color-accent: #d12424;
+  --color-rule: #ccc9c4;
+  --color-chip: #b8b5b0;
+  --color-muted: #6b6862;
+  --color-night-muted: #9e9991;
+  --color-night-body: #bfbab2;
+
+  --font-sans: "Funnel Display Variable", "Archivo Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-archivo: "Archivo Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-space: "Space Grotesk Variable", "Helvetica Neue", Arial, sans-serif;
+
+  --spacing-margin: 4rem;
+  --container-canvas: calc(1440 * var(--px));
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --text-body: clamp(0.9375rem, 1.111vw, 1rem);
+  --text-body--line-height: 1.55;
+  --text-body--letter-spacing: -0.01em;
+  --text-body-lg: clamp(1.0625rem, 1.25vw, 1.125rem);
+  --text-body-lg--line-height: 1.5;
+  --text-body-lg--letter-spacing: -0.01em;
+  --text-display: clamp(2.25rem, 6.944vw, 6.25rem);
+  --text-display--line-height: 0.88;
+  --text-display--letter-spacing: -0.03em;
+  --text-label: clamp(0.6875rem, 0.833vw, 0.75rem);
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.06em;
+  --text-lead: clamp(1.3125rem, 2.778vw, 2.5rem);
+  --text-lead--line-height: 1.2;
+  --text-lead--letter-spacing: -0.015em;
+  --text-project: clamp(1.625rem, 4.167vw, 3.75rem);
+  --text-project--line-height: 1.05;
+  --text-project--letter-spacing: -0.015em;
+  --text-section: clamp(2rem, 7.222vw, 6.5rem);
+  --text-section--line-height: 1;
+  --text-section--letter-spacing: -0.02em;
+  --text-stat: clamp(2rem, 7.222vw, 6.5rem);
+  --text-stat--line-height: 1;
+  --text-stat--letter-spacing: -0.02em;
+  --text-subhead: clamp(1.3125rem, 2.778vw, 2.5rem);
+  --text-subhead--line-height: 1.2;
+  --text-subhead--letter-spacing: -0.015em;
+  --text-subhead-sm: clamp(1.3125rem, 2.778vw, 2.5rem);
+  --text-subhead-sm--line-height: 1.2;
+  --text-subhead-sm--letter-spacing: -0.015em;
+  --text-case-title: clamp(2.5rem, 9.722vw, 8.75rem);
+  --text-case-title--line-height: 0.9;
+  --text-case-title--letter-spacing: -0.03em;
+}
+
+:root {
+  --night-chip: hsla(0, 0%, 40%, 0.1);
+  --night-hr: #918e89;
+  --wave-dim: hsla(0, 0%, 4%, 0.2);
+  --wave-flash: #d12424;
+  --wave-lit: #0a0a0a;
+  /* One design pixel: the layout is drawn on a 1728×680 canvas and scales with the viewport. */
+  --px: clamp(1px, min(100vw / 1728, 100vh / 680), 1.6px);
+}
+
+@media (min-width: 1729px) {
+  :root {
+    font-size: calc(16 * var(--px));
+  }
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scrollbar-gutter: stable;
+    font-family: var(--font-sans);
+  }
+  body {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-size: var(--text-body);
+    line-height: 1.55;
+    letter-spacing: -0.01em;
+    text-wrap: pretty;
+  }
+  button,
+  [role="button"],
+  select {
+    cursor: pointer;
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: clip;
+  }
+}
+
+/* ---------- Custom cursor ---------- */
+@media (hover: hover) and (pointer: fine) {
+  body,
+  body * {
+    cursor: url("/cursor.svg") 3 3, auto;
+  }
+  [data-cursor-invert],
+  [data-cursor-invert] * {
+    cursor: url("/cursor-light.svg") 3 3, auto;
+  }
+}
+
+/* ---------- Marquee ---------- */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marquee-track {
+  display: inline-flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ---------- Scroll reveal ---------- */
+.reveal {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal[data-reveal="waiting"] {
+  transform: translate3d(0, calc(13 * var(--px)), 0);
+  transition: none;
+  will-change: transform;
+}
+
+/* ---------- Intro loader ---------- */
+@keyframes loader-letter-in {
+  0% { transform: translate3d(0, 110%, 0); }
+  to { transform: none; }
+}
+@keyframes loader-letter-out {
+  0% { transform: none; opacity: 1; }
+  to { transform: translate3d(0, -60%, 0); opacity: 0; }
+}
+@keyframes loader-chip {
+  0% { transform: translateX(-50%) scale(0.82); opacity: 0; }
+  to { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+html:not([data-loading]) [data-intro] {
+  display: none;
+}
+
+/* ---------- Hero entrance ---------- */
+[data-nav-intro] {
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.12s, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.12s;
+}
+[data-loading] [data-nav-intro] {
+  opacity: 0;
+  transform: translate3d(0, calc(-14 * var(--px)), 0);
+  transition: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-hero-3d-lines] > *,
+  [data-hero-3d] {
+    transform-origin: 50% 100%;
+    transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--h3d, 0ms) + var(--h3d-i, 0ms)),
+      opacity 0.7s cubic-bezier(0.33, 1, 0.68, 1) calc(var(--h3d, 0ms) + var(--h3d-i, 0ms));
+  }
+  [data-hero-3d="portrait"] {
+    transform-origin: 60% 60%;
+  }
+  [data-hero-3d-lines] > :nth-child(2) { --h3d-i: 90ms; }
+  [data-hero-3d-lines] > :nth-child(3) { --h3d-i: 180ms; }
+  [data-loading] [data-hero-3d-lines] > *,
+  [data-loading] [data-hero-3d] {
+    opacity: 0;
+    transition: none;
+  }
+  [data-loading] [data-hero-3d-lines] > * {
+    transform: perspective(calc(900 * var(--px))) rotateX(44deg) translateY(calc(46 * var(--px)));
+  }
+  [data-loading] [data-hero-3d="portrait"] {
+    transform: perspective(calc(1400 * var(--px))) rotateY(-10deg) rotateX(6deg) translateY(calc(34 * var(--px))) scale(1.06);
+  }
+}
+@media (max-width: 639px) {
+  [data-hero-name] {
+    font-size: min(calc((100vw - 48px) / 3.758), 6.25rem);
+  }
+}
+
+/* ---------- Menu ---------- */
+[data-menu] {
+  transition: transform 0.42s cubic-bezier(0.65, 0, 0.35, 1), visibility 0s linear 0.42s;
+}
+[data-menu="closed"] {
+  transform: translate3d(100%, 0, 0);
+  visibility: hidden;
+  pointer-events: none;
+}
+[data-menu="open"] {
+  transform: translateZ(0);
+  transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
+}
+[data-menu-scrim] {
+  transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.42s;
+}
+[data-menu-scrim="closed"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+[data-menu-scrim="open"] {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.62s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
+}
+[data-menu-item] {
+  display: block;
+  overflow: hidden;
+}
+[data-menu-item] > * {
+  transition: opacity 0.64s cubic-bezier(0.22, 1, 0.36, 1), transform 0.64s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-menu="open"] [data-menu-item] > * {
+  transition-delay: calc(0.18s + var(--menu-i, 0) * 55ms);
+}
+[data-menu="closed"] [data-menu-item] > * {
+  opacity: 0;
+  transform: translate3d(0, 105%, 0);
+  transition-duration: 0.26s;
+  transition-delay: 0ms;
+}
+
+/* ---------- Route curtain (project open/close) ---------- */
+[data-route-curtain] {
+  transform: translate3d(0, 100%, 0);
+}
+[data-route-curtain="cover"] {
+  transform: translateZ(0);
+  transition: transform 667ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+[data-route-curtain="reveal"] {
+  transform: translate3d(0, -100%, 0);
+  transition: transform 754ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-route-curtain="idle"] {
+  transition: none;
+}
+
+/* ---------- Scroll-lit paragraph ---------- */
+@keyframes char-wave {
+  0% { color: var(--wave-dim); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  30% { color: var(--wave-flash); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+  to { color: var(--wave-lit); }
+}
+[data-wave] [data-char] {
+  color: var(--wave-dim);
+  transition: color 0.2s linear;
+}
+[data-wave] [data-char][data-lit] {
+  animation: char-wave 0.4s both;
+}
+
+/* ---------- Hover wave (letters flash red left→right) ---------- */
+@keyframes hw-sweep {
+  0% { color: var(--hw-base, currentColor); animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  45% { color: var(--wave-flash); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+}
+@keyframes hw-appear {
+  0% { color: transparent; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+  45% { color: var(--wave-flash); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+}
+[data-hw] [data-hw-char] {
+  transition: color 0.2s linear;
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  [data-hw]:is(:hover, [data-hw-on]) [data-hw-char] {
+    animation: hw-sweep 0.4s both;
+    animation-delay: calc(var(--hwi) * 16ms);
+  }
+  [data-hw-appear] {
+    opacity: 1 !important;
+  }
+  [data-hw-appear] [data-hw-char] {
+    transition: color 0.2s linear;
+  }
+  [data-hw-appear]:not(:hover):not([data-hw-on]) [data-hw-char] {
+    color: transparent;
+  }
+  [data-hw-appear]:is(:hover, [data-hw-on]) [data-hw-char] {
+    animation: hw-appear 0.4s both;
+    animation-delay: calc(var(--hwi) * 16ms);
+  }
+}
+
+/* ---------- Signature wordmark ---------- */
+@keyframes sig-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-1.5deg); }
+  50% { transform: translate3d(0, calc(-10 * var(--px)), 0) rotate(1deg); }
+}
+
+/* ---------- Contact sky drift (stands in for the reference's sky video) ---------- */
+@keyframes sky-drift {
+  0% { transform: scale(1.08) translate3d(0, 0, 0); }
+  to { transform: scale(1.18) translate3d(-3%, -2%, 0); }
+}
+
+/* ---------- Showreel stand-in (slow crossfading stills) ---------- */
+@keyframes reel-fade {
+  0%, 28% { opacity: 1; transform: scale(1); }
+  34%, 94% { opacity: 0; transform: scale(1.06); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  .reveal,
+  .reveal[data-reveal="waiting"] { transform: none; transition: none; }
+  [data-loading] [data-nav-intro] { opacity: 1; transform: none; }
+  [data-menu-item] > *,
+  [data-menu-scrim],
+  [data-menu] { transition: none; }
+  [data-menu="closed"] { transform: none; }
+  [data-route-curtain] { display: none; }
+  [data-reel-img],
+  [data-sky],
+  [data-sig] { animation: none !important; }
+}

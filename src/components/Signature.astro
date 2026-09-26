@@ -1,0 +1,104 @@
+---
+import Container from './Container.astro';
+import Arrow from './Arrow.astro';
+import { signatureLine } from '../data/site';
+---
+
+<section id="signature" class="relative w-full overflow-hidden bg-canvas">
+  <div class="relative h-[100dvh] w-full bg-[#fcfcfb] max-sm:h-auto max-sm:min-h-[calc(380*var(--px))] sm:min-h-[calc(560*var(--px))]" data-sig-root>
+    <div
+      class="pointer-events-none absolute left-1/2 top-1/2 w-[min(84vw,calc(720*var(--px)))] -translate-x-1/2 -translate-y-1/2 max-sm:top-[42%]"
+      aria-hidden="true"
+      data-sig-move
+    >
+      <svg viewBox="0 0 1000 620" class="block h-auto w-full overflow-visible" data-sig style="animation:sig-float 7s ease-in-out infinite">
+        <defs>
+          <filter id="sig-brush" x="-10%" y="-30%" width="120%" height="160%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.022 0.03" numOctaves="2" seed="4" result="noise">
+              <animate attributeName="baseFrequency" dur="8s" values="0.022 0.03;0.03 0.04;0.022 0.03" repeatCount="indefinite"></animate>
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="16" xChannelSelector="R" yChannelSelector="G" result="brushed"></feDisplacementMap>
+            <feGaussianBlur in="brushed" stdDeviation="1.5 6" result="smear"></feGaussianBlur>
+            <feComponentTransfer in="smear" result="smearSoft"><feFuncA type="linear" slope="0.55"></feFuncA></feComponentTransfer>
+            <feMerge>
+              <feMergeNode in="smearSoft"></feMergeNode>
+              <feMergeNode in="brushed"></feMergeNode>
+            </feMerge>
+          </filter>
+          <filter id="sig-haze" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="9"></feGaussianBlur>
+          </filter>
+          <filter id="sig-glow" x="-20%" y="-50%" width="140%" height="200%">
+            <feGaussianBlur stdDeviation="16"></feGaussianBlur>
+          </filter>
+        </defs>
+
+        <g class="sig-strokes" filter="url(#sig-haze)" stroke="#8e8b86" fill="none" stroke-linecap="round" opacity="0.5">
+          <path d="M500 40 C470 160 540 260 505 330 S470 480 520 590" stroke-width="10"></path>
+          <path d="M470 70 C430 190 470 260 440 330 S400 460 430 560" stroke-width="5"></path>
+          <path d="M540 60 C590 170 560 250 590 320 S640 440 600 540" stroke-width="6"></path>
+          <path d="M520 110 C610 150 640 90 700 120" stroke-width="4"></path>
+          <path d="M470 430 C390 470 360 430 300 470" stroke-width="4"></path>
+        </g>
+
+        <text
+          x="500"
+          y="372"
+          text-anchor="middle"
+          font-family="Funnel Display Variable, Archivo Variable, sans-serif"
+          font-weight="700"
+          font-size="232"
+          letter-spacing="-6"
+          fill="#d12424"
+          opacity="0.35"
+          filter="url(#sig-glow)">BRYCE</text
+        >
+        <text
+          x="500"
+          y="372"
+          text-anchor="middle"
+          font-family="Funnel Display Variable, Archivo Variable, sans-serif"
+          font-weight="700"
+          font-size="232"
+          letter-spacing="-6"
+          fill="#d12424"
+          filter="url(#sig-brush)"
+          ><tspan rotate="-5">B</tspan><tspan rotate="3" dy="-10">R</tspan><tspan rotate="-2" dy="14">Y</tspan><tspan rotate="4" dy="-18">C</tspan><tspan rotate="-6" dy="-12">E</tspan></text
+        >
+      </svg>
+    </div>
+
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 z-10">
+      <Container>
+        <div class="pb-8 sm:pb-12 lg:pb-[calc(92*var(--px))]">
+          <a
+            href="#top"
+            aria-label="Back to top"
+            class="pointer-events-auto inline-flex h-[calc(52*var(--px))] w-[calc(52*var(--px))] min-h-11 min-w-11 items-center justify-center border border-ink text-ink transition-[background-color,color] duration-300 ease-out-soft hover:bg-ink hover:text-canvas"
+          >
+            <span class="-rotate-90"><Arrow class="h-4 w-4 shrink-0" /></span>
+          </a>
+          <p class="mt-4 max-w-[30ch] text-body font-medium text-ink lg:mt-[calc(18*var(--px))]">{signatureLine}</p>
+        </div>
+      </Container>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sig-strokes {
+    transform-origin: 500px 310px;
+    transform-box: view-box;
+    animation: sig-spin 28s linear infinite;
+  }
+  @keyframes sig-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sig-strokes {
+      animation: none;
+    }
+  }
+</style>

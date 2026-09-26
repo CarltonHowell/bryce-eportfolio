@@ -1,0 +1,26 @@
+---
+import Wave from './Wave.astro';
+import Arrow from './Arrow.astro';
+
+interface Props {
+  label: string;
+  href?: string;
+  variant?: 'solid' | 'outline' | 'white';
+  class?: string;
+  [key: string]: unknown;
+}
+const { label, href, variant = 'outline', class: className, ...rest } = Astro.props;
+const base =
+  'group/btn items-center gap-3 border px-[calc(15*var(--px))] py-[calc(9*var(--px))] [@media(pointer:coarse)]:min-h-[calc(48*var(--px))] text-body font-medium leading-[1.5] transition-[background-color,color,border-color] duration-300 ease-out-soft inline-flex w-fit';
+const variants = {
+  solid: 'border-ink bg-ink text-white [--hw-base:#fff] hover:bg-transparent hover:text-ink',
+  outline: 'border-ink/25 bg-transparent text-ink [--hw-base:#0A0A0A] hover:border-ink hover:bg-ink hover:text-white',
+  white: 'border-white bg-white text-night [--hw-base:#0D0D0B] hover:bg-transparent hover:text-white shrink-0 whitespace-nowrap',
+};
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag href={href} class:list={[base, variants[variant], className]} data-hw {...rest}>
+  <Wave text={label} />
+  <Arrow />
+</Tag>

@@ -1,0 +1,52 @@
+---
+import Wave from './Wave.astro';
+import { site } from '../data/site';
+
+const items = [
+  { label: 'Home', href: '#top' },
+  { label: 'Work', href: '#projects' },
+  { label: 'Subjects', href: '#subjects' },
+  { label: 'Off Track', href: '#off-track' },
+];
+---
+
+<div class="fixed inset-0 z-20 bg-ink/25" aria-hidden="true" data-menu-scrim="closed"></div>
+<div class="pointer-events-none fixed inset-0 z-30 overflow-hidden">
+  <div
+    id="site-menu"
+    tabindex="-1"
+    aria-hidden="true"
+    data-menu="closed"
+    data-lenis-prevent
+    class="pointer-events-auto absolute inset-0 overflow-y-auto overscroll-contain bg-canvas pt-24 outline-none will-change-transform lg:pt-32"
+  >
+    <div class="mx-auto flex w-full max-w-canvas flex-col px-6 pb-16 sm:px-10 lg:px-margin">
+      <ul class="flex flex-col">
+        {
+          items.map((item, i) => (
+            <li data-menu-item style={`--menu-i:${i}`}>
+              <a
+                href={item.href}
+                tabindex="-1"
+                data-hw
+                data-menu-link
+                class="block py-3 text-project font-medium text-ink transition-colors duration-200 [--hw-base:#0A0A0A] hover:text-accent"
+              >
+                <Wave text={item.label} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mt-10" data-menu-item style={`--menu-i:${items.length}`}>
+        <a
+          href={`mailto:${site.email}`}
+          tabindex="-1"
+          data-menu-link
+          class="inline-flex items-center py-2 text-body text-muted underline underline-offset-4 transition-colors [@media(pointer:coarse)]:min-h-[calc(48*var(--px))] hover:text-ink"
+          >{site.email.toUpperCase()}</a
+        >
+      </div>
+    </div>
+  </div>
+</div>

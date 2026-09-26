@@ -1,0 +1,35 @@
+---
+import Container from './Container.astro';
+import Rule from './Rule.astro';
+import { subjects } from '../data/curriculum';
+---
+
+<div class="relative w-full bg-canvas">
+  <section id="subjects" data-cursor-invert class="relative flex min-h-[100svh] w-full flex-col justify-center bg-night py-16 lg:py-32">
+    <Container>
+      <div><h2 class="text-section font-medium text-canvas">Subjects</h2></div>
+      <Rule dark class="mt-8 lg:mt-[calc(38*var(--px))]" />
+      <ul class="overflow-hidden" data-skills>
+        {
+          subjects.map((s, i) => (
+            <li data-skill={i}>
+              <div class="will-change-transform">
+                <div class="grid grid-cols-1 items-baseline gap-y-3 py-7 transition-opacity duration-300 lg:h-[calc(160*var(--px))] lg:grid-cols-5 lg:gap-0 lg:py-0 lg:pt-[calc(56*var(--px))]" data-skill-row>
+                  <span class="text-label text-night-muted lg:pt-[calc(10*var(--px))] lg:text-body">{s.n}</span>
+                  <span class="lg:col-span-2 lg:-ml-[calc(152*var(--px))]">
+                    <span class="block text-subhead font-medium text-canvas">{s.title}</span>
+                    <span class="mt-2 block text-label text-night-muted">{s.alignment}</span>
+                  </span>
+                  <span class="max-w-[46ch] text-body text-night-body lg:col-span-2 lg:max-w-none lg:pt-[calc(12*var(--px))]">
+                    {s.blurb}
+                  </span>
+                </div>
+              </div>
+              <Rule dark />
+            </li>
+          ))
+        }
+      </ul>
+    </Container>
+  </section>
+</div>
