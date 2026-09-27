@@ -22,7 +22,7 @@ export const subjects: Subject[] = [
   {
     n: '02',
     title: 'Outdoor Education',
-    blurb: 'Bushcraft, navigation and respect for Country - students plan and lead real expeditions.',
+    blurb: 'Bushcraft, navigation and risk management - students plan and lead real expeditions.',
     alignment: 'AC v9.0 HPE · AC9HP10M05 · Sustainability · QCAA Sport & Recreation',
   },
   {

@@ -5,7 +5,7 @@ order: 1
 tags: ["Outdoor Education", "Unit Plan", "Expedition", "Leadership", "Sustainability"]
 cover: ../../assets/images/hikers-trail.jpg
 coverAlt: "Two hikers with large packs on a rocky alpine trail"
-summary: "A ten-week unit where Year 10 students plan, risk-assess and lead a three-day walk in South East Queensland — then reflect honestly on how they led, followed and looked after Country along the way."
+summary: "A ten-week unit where Year 10 students plan, risk-assess and lead a three-day walk in South East Queensland — then reflect honestly on how they led, followed and looked after the environment along the way."
 meta:
   - { label: "SUBJECT", value: "Outdoor Education" }
   - { label: "DURATION", value: "10 Weeks + 3-Day Hike" }
@@ -15,11 +15,11 @@ intentions:
   - "Plan a safe, minimal-impact multi-day route using topographic maps."
   - "Apply leadership and collaboration strategies in a challenging environment."
   - "Evaluate personal and group decision-making after the expedition."
-  - "Connect Leave No Trace principles to Traditional Custodians' care for Country."
+  - "Apply Leave No Trace principles to minimise environmental impact."
 approach:
   - { title: "Map & Plan", body: "Map reading, route cards and a whole-class risk assessment. Students own every decision — menu, gear lists, group roles and emergency procedures." }
   - { title: "Student-Led", body: "Each day a new pair of leaders navigates, manages pace and runs the evening debrief. I shadow, question and step in only when safety calls for it." }
-  - { title: "On Country", body: "We open the walk with a student-led Acknowledgement and learn how the land we walk on has been cared for long before us." }
+  - { title: "Minimal Impact", body: "Campsites, waste, water and fire — students put Leave No Trace principles into practice every day on the track." }
   - { title: "Reflect", body: "A digital expedition journal: planning, daily reflections and a post-trip evaluation of the leadership approaches they used." }
 part:
   label: "(ASSESSMENT)"
@@ -28,7 +28,7 @@ part:
   framing:
     - { label: "(AC9HP10M05)", body: "Participate in physical activities that promote health and social outcomes to design and evaluate participation strategies for themselves and others." }
     - { label: "(AC9HP10M02)", body: "Create and refine movement strategies to achieve successful outcomes across a range of challenging movement situations." }
-    - { label: "(CROSS-CURRICULUM)", body: "Sustainability · Aboriginal and Torres Strait Islander Histories and Cultures." }
+    - { label: "(CROSS-CURRICULUM)", body: "Sustainability." }
   stats:
     - { value: "3", label: "days walked, student-led" }
     - { value: "42 km", label: "planned by students" }
